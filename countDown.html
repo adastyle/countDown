@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        .needTime span:not(:first-child){
+            background:#3E3E3E;
+            color:#fff;
+            display:inline-block;
+            border-radius:4px;
+            line-height:normal;
+            padding:.3rem;
+        }
+    </style>
+</head>
+<body>
+    <p class="needTime">
+        <span>距离拼团结束</span>
+        <span class="hours"></span>:
+        <span class="minute"></span>:
+        <span class="second"></span>
+    </p>
+</body>
+<script>
+    var overTime=1561776251885;//假如获取当前时间+24小时(这里你可以自己设置想要的时间)
+    var currDate=new Date();
+    var timeRemaining=overTime-currDate.getTime();//这两个时间的时间差
+    var level1=timeRemaining%(24*3600*1000);
+    var hours=Math.floor(level1/(3600*1000));
+    hours=hours<10?String("0"+hours) : hours;
+    var level2=(level1%(3600*1000));
+    var minute=Math.floor(level2/(60*1000));
+    minute=minute<10?String("0"+minute) : minute;
+    var level3=(level2%(60*1000));
+    var second=Math.floor(level3/1000);
+    second=second<10?String("0"+second) : second;
+    $(".hours").html(hours);
+    $(".minute").html(minute);
+    $(".second").html(second);
+    hours=parseInt(hours);
+    minute=parseInt(minute);
+    second=parseInt(second);
+    var timer=setInterval(function(){
+        if(second>1){
+            second--;
+            second=second<10?"0"+second:second;
+            $(".second").html(second);
+        }else{
+            if(minute>1){
+                second=60;
+                minute--;
+                second=second<10?"0"+second:second;
+                minute=minute<10?"0"+minute:minute;
+                $(".minute").html(minute);
+                $(".second").html(second);
+            }else{
+                if(hours>1){
+                    minute=60;
+                    second=60;
+                    hours--;
+                    second=second<10?"0"+second:second;
+                    minute=minute<10?"0"+minute:minute;
+                    hours=hours<10?"0"+hours:hours;
+                    $(".hours").html(hours);
+                    $(".minute").html(minute);
+                    $(".second").html(second);
+                }else{
+                    $(".hours").html("00");
+                    $(".minute").html("00");
+                    $(".second").html("00");
+                    clearInterval(timer);
+                }
+            }
+        }
+    },1000)
+</script>
+</html>
